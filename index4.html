@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+	<meta charset="utf-8">
+	<title>Requisição XMLHttpRequest</title>
+</head>
+<body>
+	<h1>Imagens Aleatórios de Cachorros</h1>
+	<p> A partir do click no botão abaixo uma nova imagem aleatória de cachorros será carregada utilizando requisições assíncronas com XMLHttpRequest</p>
+    
+	<img id="img_dog" src="" alt="Aguardando a imagem ser carregada" />
+	<br/>
+	<button onclick="carregarImagens()">Carregar Imagens</button>
+</body>
+	<script type="text/javascript">
+    
+		function carregarImagens(){
+			var xmlHttpRequest = new XMLHttpRequest(); // cria um objeto para fazer requisições assíncronas
+			var url = "https://dog.ceo/api/breeds/image/random" // cria uma variável para armazenar a url da API
+			xmlHttpRequest.open("GET", url, true); // abre a conexão com a API
+
+			xmlHttpRequest.onreadystatechange = function() { // cria um evento para quando a requisição for finalizada
+				if (xmlHttpRequest.readyState == 3) {   //monitora o status da requisição
+					console.log('Carregando o conteúdo');
+				}
+				if (xmlHttpRequest.readyState == 4) {
+                     //se o status for igual a 4 entao jsonResponse recebe o conteúdo da requisição
+					var jsonResponse = JSON.parse(xmlHttpRequest.responseText);
+       
+					console.log('Requisição Finalizada');
+					console.log('Resultado da Requisição: ' + jsonResponse);
+					console.log('Resultado da Requisição: ' + jsonResponse.message);
+                    //pega o elemento img_dog e atribui a ele o conteúdo da requisição
+					var imgDog = document.getElementById("img_dog");
+					imgDog.src = jsonResponse.message;
+				}
+			};
+                 
+			xmlHttpRequest.send(null);
+    
+		}
+	</script>
+</html>
